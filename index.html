@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="DebtfreeNow helps you manage debt with expert guides and a personalized debt report.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DebtfreeNow - Guides & Debt Report</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <!-- Header & Navigation -->
+  <header class="site-header" role="banner">
+    <nav class="navbar" role="navigation" aria-label="Main Navigation">
+      <div class="container navbar__container">
+        <a href="#" class="navbar__logo-link">
+          <img class="logo" src="https://res.cloudinary.com/dqakzmdij/image/upload/v1738412284/logo_svg_lavc3x.svg" alt="Debt-Free Now Logo">
+        </a>
+        <!-- Centered Title -->
+        <div class="navbar__title">
+          <h1 class="centitle"><a class="centitle" href="">DebtfreeNow</a> </h1>
+        </div>
+        <ul class="navbar__menu">
+          <li class="navbar__item"><a class="navbar__link" href="#guides">Buy Guides</a></li>
+          <li class="navbar__item"><a class="navbar__link" href="#debtReport">Check Debt Report</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="site-main">
+    <!-- Guides Section -->
+    <section id="guides" class="guides">
+      <div class="container">
+        <h2 class="section-title">Our Featured Guides</h2>
+        <article class="guide">
+          <figure class="guide__figure">
+            <img src="https://res.cloudinary.com/dqakzmdij/image/upload/v1738411456/GUIDE_20250128_025253_000_jpktpe.jpg" alt="Debt-Free Student Guide" class="guide__img">
+          </figure>
+          <div class="guide__details">
+            <h3 class="guide__title">Debt-Free Student</h3>
+            <p class="guide__price">₹49</p>
+            <p class="guide__description">Learn how to manage loans, plan your budget, and start your journey to financial freedom with the Debt-Free Student guide.</p>
+            <a href="upi://pay?pa=charanthummuru54@okicici&pn=debtfreeNow&am=49&cu=INR" class="btn guide__btn">Buy Now</a>
+          </div>
+        </article>
+        <article class="guide">
+          <figure class="guide__figure">
+            <img src="https://res.cloudinary.com/dqakzmdij/image/upload/v1738411737/GUIDE_20250131_180656_000_t0fqlx.jpg" alt="The Dark Side of Slice Loan App" class="guide__img">
+          </figure>
+          <div class="guide__details">
+            <h3 class="guide__title">The Dark Side of Slice Loan App</h3>
+            <p class="guide__price">₹10</p>
+            <p class="guide__description">Explore the hidden risks and costs of using the Slice Loan App and learn how to protect yourself financially.</p>
+            <a href="upi://pay?pa=charanthummuru54@okicici&pn=debtfreeNow&am=10&cu=INR" class="btn guide__btn">Buy Now</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Debt Report Section -->
+    <section id="debtReport" class="debt-report">
+      <div class="container">
+        <h2 class="section-title">Check Your Debt Report</h2>
+        <button class="btn debt-report__btn" onclick="showForm()">Get Started</button>
+        <div class="form-section" id="formSection" style="display: none;">
+          <input type="text" id="name" placeholder="Enter your full name" required aria-label="Full Name">
+          <input type="number" id="totalDebt" placeholder="Enter your total debt (₹1,000 to ₹10,00,000)" required aria-label="Total Debt">
+          <input type="number" id="monthlyEMI" placeholder="Enter your monthly EMI" required aria-label="Monthly EMI">
+          <input type="number" id="monthlyIncome" placeholder="Enter your monthly income" required aria-label="Monthly Income">
+          <button class="btn" onclick="generateReport()">Get Report</button>
+        </div>
+        <div class="report" id="reportSection" style="display: none;" aria-live="polite">
+          <div class="letter-template">
+            <header class="letter-template__header">
+              <h2>Debt Report</h2>
+              <p><strong>User:</strong> <span id="userName"></span></p>
+            </header>
+            <div class="letter-template__body">
+              <p><strong>Total Debt:</strong> ₹<span id="debtAmount"></span></p>
+              <p><strong>Monthly EMI:</strong> ₹<span id="monthlyEMIAmount"></span></p>
+              <p><strong>Monthly Income:</strong> ₹<span id="incomeAmount"></span></p>
+              <p><strong>Debt-to-Income Ratio (DTI):</strong> <span id="dtiRatio"></span>%</p>
+              <div class="chart-container">
+                <canvas id="debtChart" aria-label="Debt Distribution Chart" role="img"></canvas>
+              </div>
+              <div id="dtiDisplay" class="dti-display"></div>
+              <h3 class="advice">Debt Management Strategy:</h3>
+              <div class="plan">
+                <p id="planText"></p>
+              </div>
+              <h3>Time to Debt Freedom:</h3>
+              <p id="timeToDebtFreedom"></p>
+              <h3>Financial Health Score:</h3>
+              <p id="financialHealthScore"></p>
+              <h3>Interest Saved:</h3>
+              <p id="interestSaved"></p>
+              <button class="btn download-btn" onclick="downloadReport()">Download Report PDF</button>
+            </div>
+            <footer class="letter-template__footer">
+              <p>Thank you for using DebtfreeNow! If you have any questions or need further assistance, feel free to contact us.</p>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <p>&copy; 2025 Debt-Free Now. All rights reserved.</p>
+      <div class="contact-info">
+        <p>Contact us: <a href="mailto:debtfreenow49@gmail.com">debtfreenow49@gmail.com</a></p>
+        <a href="https://www.instagram.com/debt_freenow?igsh=MThkZG04dzg3NjlvaA==" target="_blank" rel="noopener" aria-label="Instagram">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg" alt="Instagram" class="social-icon">
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Show the form when user clicks "Get Started"
+    function showForm() {
+      document.querySelector('.debt-report__btn').style.display = 'none';
+      document.getElementById('formSection').style.display = 'block';
+    }
+
+    // Generate Debt Report from user input
+    function generateReport() {
+      const name = document.getElementById('name').value.trim();
+      const nameRegex = /^[A-Za-z\s]+$/;
+      if (!name || !nameRegex.test(name)) {
+        alert("Please enter a valid name (letters and spaces only).");
+        return;
+      }
+
+      const totalDebt = parseFloat(document.getElementById('totalDebt').value);
+      const monthlyEMI = parseFloat(document.getElementById('monthlyEMI').value);
+      const monthlyIncome = parseFloat(document.getElementById('monthlyIncome').value);
+
+      if (isNaN(totalDebt) || totalDebt < 1000 || totalDebt > 1000000) {
+        alert("Please enter a valid total debt amount between ₹1,000 and ₹10,00,000.");
+        return;
+      }
+      if (isNaN(monthlyEMI) || monthlyEMI < 0) {
+        alert("Please enter a valid monthly EMI.");
+        return;
+      }
+      if (isNaN(monthlyIncome) || monthlyIncome <= 0) {
+        alert("Please enter a valid monthly income.");
+        return;
+      }
+
+      const dti = ((monthlyEMI / monthlyIncome) * 100).toFixed(2);
+
+      // Update report details
+      document.getElementById('userName').innerText = name;
+      document.getElementById('debtAmount').innerText = totalDebt.toFixed(2);
+      document.getElementById('monthlyEMIAmount').innerText = monthlyEMI.toFixed(2);
+      document.getElementById('incomeAmount').innerText = monthlyIncome.toFixed(2);
+      document.getElementById('dtiRatio').innerText = dti;
+
+      // Hide the form and show the report
+      document.getElementById('formSection').style.display = 'none';
+      document.getElementById('reportSection').style.display = 'block';
+
+      const dtiDisplay = document.getElementById('dtiDisplay');
+      dtiDisplay.innerText = `${dti}% DTI`;
+      dtiDisplay.className = dti <= 30 ? 'dti-display green' : dti <= 50 ? 'dti-display yellow' : 'dti-display red';
+
+      // Render the chart
+      const ctx = document.getElementById('debtChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Total Debt', 'Monthly EMI', 'Monthly Income'],
+          datasets: [{
+            data: [totalDebt, monthlyEMI, monthlyIncome],
+            backgroundColor: ['#dc3545', '#ffc107', '#28a745'],
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      });
+
+      // Debt management plan text based on DTI
+      const planText = dti > 50 ? 
+        'Aggressive Avalanche Method: Focus on high-interest debts.' : 
+        dti > 30 ? 
+        'Debt Snowball Method: Clear smaller debts first.' : 
+        'Healthy DTI: Maintain wise expense management.';
+      document.getElementById('planText').innerText = planText;
+
+      // Calculate time to debt freedom, financial health score and interest saved
+      const timeToDebtFreedom = (totalDebt / monthlyEMI).toFixed(1);
+      document.getElementById('timeToDebtFreedom').innerText = `${timeToDebtFreedom} months`;
+
+      const financialHealthScore = (100 - dti).toFixed(0);
+      document.getElementById('financialHealthScore').innerText = `${financialHealthScore}/100`;
+
+      const interestSaved = (totalDebt * 0.12 * timeToDebtFreedom / 12).toFixed(2);
+      document.getElementById('interestSaved').innerText = `₹${interestSaved}`;
+    }
+
+    // Download the report as a one-page PDF
+    function downloadReport() {
+      const reportSection = document.getElementById('reportSection');
+
+      // Save original inline styles
+      const originalStyles = {
+        width: reportSection.style.width,
+        position: reportSection.style.position,
+        overflow: reportSection.style.overflow,
+        zIndex: reportSection.style.zIndex
+      };
+
+      // Adjust styles temporarily for capturing the full report
+      reportSection.style.width = '100%';
+      reportSection.style.position = 'absolute';
+      reportSection.style.overflow = 'visible';
+      reportSection.style.zIndex = '9999';
+
+      html2canvas(reportSection, {
+        scrollY: -window.scrollY,
+        scrollX: -window.scrollX,
+        useCORS: true,
+        scale: 3,
+        logging: false
+      }).then(canvas => {
+        // Restore original styles
+        Object.assign(reportSection.style, originalStyles);
+
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+
+        // Calculate scale to fit the report in one A4 page
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        const scaleFactor = Math.min(pageWidth / canvasWidth, pageHeight / canvasHeight);
+        const imgWidth = canvasWidth * scaleFactor;
+        const imgHeight = canvasHeight * scaleFactor;
+        const marginX = (pageWidth - imgWidth) / 2;
+        const marginY = (pageHeight - imgHeight) / 2;
+
+        pdf.addImage(imgData, 'PNG', marginX, marginY, imgWidth, imgHeight);
+        pdf.setFontSize(10);
+        pdf.setTextColor(150);
+        pdf.text('Generated by DebtfreeNow', 10, 10);
+        pdf.save(`${document.getElementById('name').value}_Debt_Report.pdf`);
+      }).catch(error => {
+        console.error('Error generating PDF:', error);
+        alert('Error generating PDF. Please try again.');
+        Object.assign(reportSection.style, originalStyles);
+      });
+    }
+  </script>
+</body>
+</html>
