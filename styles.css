@@ -125,6 +125,7 @@
   
   .guide__figure {
     margin-bottom: 20px;
+    text-align: center;
   }
   
   .guide__img {
@@ -313,25 +314,57 @@
      Responsive Adjustments
   ---------------------------------- */
   @media (max-width: 768px) {
+    /* Navigation adjustments */
     .navbar {
       flex-direction: column;
       gap: 15px;
+    }
+    .navbar__container {
+      flex-direction: column;
+    }
+    .navbar__logo-link .logo {
+      width: 120px;
+    }
+    .navbar__title h1 {
+      font-size: 2rem;
     }
     .navbar__menu {
       flex-wrap: wrap;
       justify-content: center;
     }
+    
+    /* Guides section adjustments */
     .guide {
       width: 90%;
       margin: 0 auto 30px;
+      align-items: center;
     }
-    .form-section input {
+    .guide__img {
+      width: 100%;
+      max-width: none;
+    }
+    .guide__details {
       width: 100%;
     }
+    
+    /* Debt report form adjustments */
+    .form-section input {
+      width: 100%;
+      max-width: 400px;
+    }
+    
+    /* Chart container */
     .chart-container {
       width: 100%;
       max-width: 300px;
     }
+    
+    /* Letter template padding */
+    .letter-template {
+      padding: 15px;
+    }
+    
+    /* Button adjustments */
     .download-btn {
       padding: 12px 25px;
       font-size: 1em;
