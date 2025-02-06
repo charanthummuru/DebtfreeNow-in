@@ -21,7 +21,7 @@
         </a>
         <!-- Centered Title -->
         <div class="navbar__title">
-          <h1 class="centitle"><a class="centitle" href="">DebtfreeNow</a> </h1>
+          <h1 class="centitle"><a class="centitle" href="">DebtfreeNow</a></h1>
         </div>
         <ul class="navbar__menu">
           <li class="navbar__item"><a class="navbar__link" href="#guides">Buy Guides</a></li>
@@ -182,15 +182,13 @@
           labels: ['Total Debt', 'Monthly EMI', 'Monthly Income'],
           datasets: [{
             data: [totalDebt, monthlyEMI, monthlyIncome],
-            backgroundColor: ['#dc3545', '#ffc107', '#28a745'],
+            backgroundColor: ['#dc3545', '#ffc107', '#28a745']
           }]
         },
         options: {
           responsive: true,
           plugins: {
-            legend: {
-              position: 'bottom'
-            }
+            legend: { position: 'bottom' }
           }
         }
       });
@@ -206,10 +204,8 @@
       // Calculate time to debt freedom, financial health score and interest saved
       const timeToDebtFreedom = (totalDebt / monthlyEMI).toFixed(1);
       document.getElementById('timeToDebtFreedom').innerText = `${timeToDebtFreedom} months`;
-
       const financialHealthScore = (100 - dti).toFixed(0);
       document.getElementById('financialHealthScore').innerText = `${financialHealthScore}/100`;
-
       const interestSaved = (totalDebt * 0.12 * timeToDebtFreedom / 12).toFixed(2);
       document.getElementById('interestSaved').innerText = `₹${interestSaved}`;
     }
@@ -217,7 +213,6 @@
     // Download the report as a one-page PDF
     function downloadReport() {
       const reportSection = document.getElementById('reportSection');
-
       // Save original inline styles
       const originalStyles = {
         width: reportSection.style.width,
@@ -225,7 +220,6 @@
         overflow: reportSection.style.overflow,
         zIndex: reportSection.style.zIndex
       };
-
       // Adjust styles temporarily for capturing the full report
       reportSection.style.width = '100%';
       reportSection.style.position = 'absolute';
@@ -241,12 +235,10 @@
       }).then(canvas => {
         // Restore original styles
         Object.assign(reportSection.style, originalStyles);
-
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
         const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
-
         // Calculate scale to fit the report in one A4 page
         const canvasWidth = canvas.width;
         const canvasHeight = canvas.height;
@@ -255,7 +247,6 @@
         const imgHeight = canvasHeight * scaleFactor;
         const marginX = (pageWidth - imgWidth) / 2;
         const marginY = (pageHeight - imgHeight) / 2;
-
         pdf.addImage(imgData, 'PNG', marginX, marginY, imgWidth, imgHeight);
         pdf.setFontSize(10);
         pdf.setTextColor(150);
