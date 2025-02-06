@@ -108,7 +108,7 @@
   
   .guide {
     display: flex;
-    flex-direction: column;
+    flex-direction: inherit;
     background-color: #f9f9f9;
     border-radius: 15px;
     padding: 20px;
@@ -333,103 +333,20 @@
       justify-content: center;
     }
     
-   /* Guides Section */
-.guides {
-    padding: 50px 0;
-    background-color: #ffffff;
-    animation: fadeInUp 2s ease-out;
-}
-
-.guides h2 {
-    text-align: center;
-    font-size: 3em;
-    margin-bottom: 40px;
-    color: #333;
-}
-
-.guide {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin-bottom: 40px;
-    background-color: #f9f9f9;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transform: translateY(100px);
-    animation: fadeInUp 2.5s ease-out forwards;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.guide:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-}
-
-.guide-img {
-    width: 100%;
-    max-width: 300px;
-    height: auto;
-    border-radius: 10px;
-    margin-right: 30px;
-    transition: transform 0.3s ease-in-out;
-}
-
-.guide-details {
-    flex: 1;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.guide:hover .guide-img {
-    transform: scale(1.1);
-}
-
-.guide:hover .guide-details {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0);
-}
-
-.guide-details h3 {
-    font-size: 2.5em;
-    margin-bottom: 15px;
-    color: #333;
-}
-
-.price {
-    font-size: 1.8em;
-    color: #ff6347;
-    margin-bottom: 20px;
-}
-
-.description {
-    font-size: 1.2em;
-    margin-bottom: 20px;
-    color: #555;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-}
-
-.buy-btn {
-    background-color: #2e7d32;
-    color: white;
-    padding: 12px 25px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 1.2em;
-}
-
-.buy-btn:hover {
-    background-color: #388e3c;
-}
+    /* Guides section adjustments */
+    .guide {
+      width: 90%;
+      margin: 0 auto 30px;
+      align-items: center;
+    }
+    .guide__img {
+      width: 100%;
+      max-width: 300px;
+    }
+    .guide__details {
+      width: 70%;
+      max-width: none;
+    }
     
     /* Debt report form adjustments */
     .form-section input {
