@@ -99,6 +99,24 @@
               <p id="financialHealthScore"></p>
               <h3>Interest Saved:</h3>
               <p id="interestSaved"></p>
+
+              <!-- Extra Charts: Three small pie charts displayed side by side -->
+              <div class="extra-charts-container">
+                <div class="extra-chart">
+                  <canvas id="timeChart" aria-label="Time to Debt Freedom Chart" role="img"></canvas>
+                  <p>Time to Debt Freedom</p>
+                </div>
+                <div class="extra-chart">
+                  <canvas id="healthChart" aria-label="Financial Health Score Chart" role="img"></canvas>
+                  <p>Financial Health Score</p>
+                </div>
+                <div class="extra-chart">
+                  <canvas id="interestChart" aria-label="Interest Saved Chart" role="img"></canvas>
+                  <p>Interest Saved</p>
+                </div>
+              </div>
+
+              <!-- Download button is now moved after the extra charts -->
               <button class="btn download-btn" onclick="downloadReport()">Download Report PDF</button>
             </div>
             <footer class="letter-template__footer">
@@ -174,7 +192,7 @@
       dtiDisplay.innerText = `${dti}% DTI`;
       dtiDisplay.className = dti <= 30 ? 'dti-display green' : dti <= 50 ? 'dti-display yellow' : 'dti-display red';
 
-      // Render the chart
+      // Render the debt distribution chart
       const ctx = document.getElementById('debtChart').getContext('2d');
       new Chart(ctx, {
         type: 'pie',
@@ -208,56 +226,131 @@
       document.getElementById('financialHealthScore').innerText = `${financialHealthScore}/100`;
       const interestSaved = (totalDebt * 0.12 * timeToDebtFreedom / 12).toFixed(2);
       document.getElementById('interestSaved').innerText = `₹${interestSaved}`;
+
+      // --------------------------
+      // Render Extra Charts Below
+      // --------------------------
+      const timeToDebtFreedomNum = parseFloat(timeToDebtFreedom);
+      const financialHealthScoreNum = parseFloat(financialHealthScore);
+      const interestSavedNum = parseFloat(interestSaved);
+
+      // Time to Debt Freedom Chart (using 60 months as a target)
+      new Chart(document.getElementById('timeChart').getContext('2d'), {
+        type: 'pie',
+        data: {
+          labels: ['Achieved', 'Remaining'],
+          datasets: [{
+            data: [timeToDebtFreedomNum, Math.max(60 - timeToDebtFreedomNum, 0)],
+            backgroundColor: ['#007bff', '#e9ecef']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'bottom' } }
+        }
+      });
+
+      // Financial Health Score Chart (out of 100)
+      new Chart(document.getElementById('healthChart').getContext('2d'), {
+        type: 'pie',
+        data: {
+          labels: ['Score', 'Remaining'],
+          datasets: [{
+            data: [financialHealthScoreNum, 100 - financialHealthScoreNum],
+            backgroundColor: ['#28a745', '#e9ecef']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'bottom' } }
+        }
+      });
+
+      // Interest Saved Chart (assuming a target of ₹10,000)
+      const interestTarget = 10000;
+      new Chart(document.getElementById('interestChart').getContext('2d'), {
+        type: 'pie',
+        data: {
+          labels: ['Interest Saved', 'Remaining'],
+          datasets: [{
+            data: [interestSavedNum, Math.max(interestTarget - interestSavedNum, 0)],
+            backgroundColor: ['#dc3545', '#e9ecef']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'bottom' } }
+        }
+      });
     }
 
     // Download the report as a one-page PDF
-    function downloadReport() {
-      const reportSection = document.getElementById('reportSection');
-      // Save original inline styles
-      const originalStyles = {
-        width: reportSection.style.width,
-        position: reportSection.style.position,
-        overflow: reportSection.style.overflow,
-        zIndex: reportSection.style.zIndex
-      };
-      // Adjust styles temporarily for capturing the full report
-      reportSection.style.width = '100%';
-      reportSection.style.position = 'absolute';
-      reportSection.style.overflow = 'visible';
-      reportSection.style.zIndex = '9999';
+   function downloadReport() {
+  const reportSection = document.getElementById('reportSection');
+  // Save original inline styles
+  const originalStyles = {
+    width: reportSection.style.width,
+    position: reportSection.style.position,
+    overflow: reportSection.style.overflow,
+    zIndex: reportSection.style.zIndex
+  };
 
-      html2canvas(reportSection, {
-        scrollY: -window.scrollY,
-        scrollX: -window.scrollX,
-        useCORS: true,
-        scale: 3,
-        logging: false
-      }).then(canvas => {
-        // Restore original styles
-        Object.assign(reportSection.style, originalStyles);
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
-        const pageWidth = pdf.internal.pageSize.getWidth();
-        const pageHeight = pdf.internal.pageSize.getHeight();
-        // Calculate scale to fit the report in one A4 page
-        const canvasWidth = canvas.width;
-        const canvasHeight = canvas.height;
-        const scaleFactor = Math.min(pageWidth / canvasWidth, pageHeight / canvasHeight);
-        const imgWidth = canvasWidth * scaleFactor;
-        const imgHeight = canvasHeight * scaleFactor;
-        const marginX = (pageWidth - imgWidth) / 2;
-        const marginY = (pageHeight - imgHeight) / 2;
-        pdf.addImage(imgData, 'PNG', marginX, marginY, imgWidth, imgHeight);
-        pdf.setFontSize(10);
-        pdf.setTextColor(150);
-        pdf.text('Generated by DebtfreeNow', 10, 10);
-        pdf.save(`${document.getElementById('name').value}_Debt_Report.pdf`);
-      }).catch(error => {
-        console.error('Error generating PDF:', error);
-        alert('Error generating PDF. Please try again.');
-        Object.assign(reportSection.style, originalStyles);
-      });
+  // Insert watermark element at the top of the letter-template
+  const watermark = document.createElement('div');
+  watermark.id = "tempWatermark";
+  watermark.innerText = "Generated by DebtfreeNow";
+  watermark.style.fontSize = "10px";
+  watermark.style.color = "gray";
+  watermark.style.textAlign = "center";
+  watermark.style.marginBottom = "10px";
+  document.querySelector('.letter-template').prepend(watermark);
+
+  // Adjust styles temporarily for capturing the full report
+  reportSection.style.width = '100%';
+  reportSection.style.position = 'absolute';
+  reportSection.style.overflow = 'visible';
+  reportSection.style.zIndex = '9999';
+
+  html2canvas(reportSection, {
+    scrollY: -window.scrollY,
+    scrollX: -window.scrollX,
+    useCORS: true,
+    scale: 2, // lowered scale factor (try 1.5 or 2)
+    logging: false
+  }).then(canvas => {
+    // Restore original styles
+    Object.assign(reportSection.style, originalStyles);
+    // Convert canvas to JPEG with quality 0.8 instead of PNG
+    const imgData = canvas.toDataURL('image/jpeg', 0.8);
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+    const scaleFactor = Math.min(pageWidth / canvasWidth, pageHeight / canvasHeight);
+    const imgWidth = canvasWidth * scaleFactor;
+    const imgHeight = canvasHeight * scaleFactor;
+    const marginX = (pageWidth - imgWidth) / 2;
+    const marginY = (pageHeight - imgHeight) / 2;
+    pdf.addImage(imgData, 'JPEG', marginX, marginY, imgWidth, imgHeight);
+    pdf.save(`${document.getElementById('name').value}_Debt_Report.pdf`);
+    // Remove the temporary watermark element after capture
+    const tempWatermark = document.getElementById('tempWatermark');
+    if (tempWatermark) {
+      tempWatermark.remove();
     }
+  }).catch(error => {
+    console.error('Error generating PDF:', error);
+    alert('Error generating PDF. Please try again.');
+    Object.assign(reportSection.style, originalStyles);
+    const tempWatermark = document.getElementById('tempWatermark');
+    if (tempWatermark) {
+      tempWatermark.remove();
+    }
+  });
+}
+
   </script>
 </body>
 </html>

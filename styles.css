@@ -2,405 +2,417 @@
    Reset & Base Styles
 ---------------------------------- */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Roboto', Arial, sans-serif;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: #f7f7f7;
-    overflow-x: hidden;
-    line-height: 1.6;
-  }
-  
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  /* ---------------------------------
-       Container
-  ---------------------------------- */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #f7f7f7;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ---------------------------------
+     Container
+---------------------------------- */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ---------------------------------
+     Navigation & Header
+---------------------------------- */
+.site-header {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px 0;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar__logo-link .logo {
+  width: 150px;
+  height: auto;
+}
+
+.navbar__title {
+  flex-grow: 1;
+  text-align: center;
+  margin: 0 20px;
+}
+
+.navbar__title h1 {
+  font-size: 2.5rem;
+  color: white;
+  margin: 0;
+}
+
+.navbar__menu {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.navbar__link {
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.navbar__link:hover,
+.navbar__link:focus {
+  color: #ff6347;
+}
+
+/* ---------------------------------
+     Section Titles
+---------------------------------- */
+.section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  color: #333;
+}
+
+/* ---------------------------------
+     Guides Section
+---------------------------------- */
+.guides {
+  padding: 50px 0;
+  background-color: #ffffff;
+  color: #333;
+  animation: fadeInUp 2s ease-out;
+}
+
+.guide {
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.guide:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.guide__figure {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.guide__img {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.guide__details {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.guide__title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.guide__price {
+  font-size: 1.8rem;
+  color: #ff6347;
+  margin-bottom: 15px;
+}
+
+.guide__description {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+/* ---------------------------------
+     Buttons
+---------------------------------- */
+.btn {
+  display: inline-block;
+  background-color: #1dbf73;
+  color: #fff;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover,
+.btn:focus {
+  background-color: #17a65e;
+  transform: scale(1.02);
+}
+
+/* ---------------------------------
+     Debt Report Section
+---------------------------------- */
+.debt-report {
+  padding: 50px 0;
+  background-color: #ffffff;
+  color: #333;
+}
+
+.debt-report__btn {
+  margin: 0 auto 30px;
+  display: block;
+}
+
+.form-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.form-section input {
+  width: 85%;
+  max-width: 400px;
+  padding: 12px;
+  margin: 10px auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  display: block;
+  transition: box-shadow 0.3s ease;
+}
+
+.form-section input:focus {
+  box-shadow: 0 0 8px rgba(30, 60, 114, 0.6);
+  outline: none;
+}
+
+.report {
+  margin-top: 30px;
+}
+
+.letter-template {
+  background-color: #fff;
+  color: #333;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.letter-template__header,
+.letter-template__footer {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.letter-template__body {
+  padding: 20px 0;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.chart-container {
+  position: relative;
+  width: 300px;
+  margin: 20px auto;
+}
+
+.dti-display {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.dti-display.green { color: #28a745; }
+.dti-display.yellow { color: #ffc107; }
+.dti-display.red { color: #dc3545; }
+
+.plan p {
+  text-align: center;
+  background-color: #f0f8ff;
+  padding: 20px;
+  border-radius: 10px;
+  color: #1e3c72;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.download-btn {
+  margin: 25px auto;
+}
+
+/* ---------------------------------
+     Footer
+---------------------------------- */
+.site-footer {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  padding: 20px 0;
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 1.2rem;
+}
+
+.contact-info {
+  margin-top: 15px;
+}
+
+.social-icon {
+  width: 30px;
+  height: 30px;
+  transition: transform 0.3s ease;
+  object-fit: contain;
+}
+
+.contact-info a {
+  font-size: 1.2rem;
+  margin-right: 10px;
+  color: #fff;
+}
+
+/* ---------------------------------
+     Animations
+---------------------------------- */
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(50px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------------------------
+     Responsive Adjustments
+---------------------------------- */
+@media (max-width: 768px) {
   .container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-  
-  /* ---------------------------------
-       Navigation & Header
-  ---------------------------------- */
-  .site-header {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px 0;
-  }
-  
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .navbar__container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .navbar__logo-link .logo {
-    width: 150px;
-    height: auto;
-  }
-  
-  .navbar__title {
-    flex-grow: 1;
-    text-align: center;
-    margin: 0 20px;
-  }
-  
-  .navbar__title h1 {
-    font-size: 2.5rem;
-    color: white;
-    margin: 0;
-  }
-  
-  .navbar__menu {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-  }
-  
-  .navbar__link {
-    font-size: 18px;
-    transition: color 0.3s ease;
-  }
-  
-  .navbar__link:hover,
-  .navbar__link:focus {
-    color: #ff6347;
-  }
-  
-  /* ---------------------------------
-       Section Titles
-  ---------------------------------- */
-  .section-title {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 40px;
-    color: #333;
-  }
-  
-  /* ---------------------------------
-       Guides Section
-  ---------------------------------- */
-  .guides {
-    padding: 50px 0;
-    background-color: #ffffff;
-    color: #333;
-    animation: fadeInUp 2s ease-out;
-  }
-  
-  .guide {
-    display: flex;
-    flex-direction: column;
-    background-color: #f9f9f9;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    margin-bottom: 40px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .guide:hover {
-    transform: scale(1.02);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  }
-  
-  .guide__figure {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .guide__img {
     width: 100%;
-    max-width: 300px;
-    border-radius: 10px;
-    transition: transform 0.3s ease;
+    max-width: 100%;
+    padding: 0 10px;
   }
-  
-  .guide__details {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
   }
-  
-  .guide__title {
+  .navbar__container {
+    flex-direction: column;
+  }
+  .navbar__logo-link .logo {
+    width: 120px;
+  }
+  .navbar__title h1 {
     font-size: 2rem;
-    margin-bottom: 10px;
-    color: #333;
   }
-  
-  .guide__price {
-    font-size: 1.8rem;
-    color: #ff6347;
-    margin-bottom: 15px;
+  .navbar__menu {
+    flex-wrap: wrap;
+    justify-content: center;
   }
-  
-  .guide__description {
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-    color: #555;
-  }
-  
-  /* ---------------------------------
-       Buttons
-  ---------------------------------- */
-  .btn {
-    display: inline-block;
-    background-color: #1dbf73;
-    color: #fff;
-    padding: 15px 30px;
-    border: none;
-    border-radius: 30px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .btn:hover,
-  .btn:focus {
-    background-color: #17a65e;
-    transform: scale(1.02);
-  }
-  
-  /* ---------------------------------
-       Debt Report Section
-  ---------------------------------- */
-  .debt-report {
-    padding: 50px 0;
-    background-color: #ffffff;
-    color: #333;
-  }
-  
-  .debt-report__btn {
+  .guide {
+    width: 100%;
     margin: 0 auto 30px;
     display: block;
   }
-  
-  .form-section {
+  .guide__figure,
+  .guide__details {
+    width: 100%;
     text-align: center;
-    margin-bottom: 30px;
+    margin: 0;
   }
-  
+  .guide__img {
+    width: 100%;
+    max-width: none;
+    border-radius: 10px;
+  }
+  .guide__details {
+    padding: 20px;
+  }
   .form-section input {
-    width: 85%;
-    max-width: 400px;
-    padding: 12px;
-    margin: 10px auto;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
-    display: block;
-    transition: box-shadow 0.3s ease;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
-  
-  .form-section input:focus {
-    box-shadow: 0 0 8px rgba(30, 60, 114, 0.6);
-    outline: none;
-  }
-  
-  .report {
-    margin-top: 30px;
-  }
-  
-  .letter-template {
-    background-color: #fff;
-    color: #333;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  .letter-template__header,
-  .letter-template__footer {
-    text-align: center;
-    padding: 10px 0;
-  }
-  
-  .letter-template__body {
-    padding: 20px 0;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-  }
-  
   .chart-container {
-    position: relative;
-    width: 300px;
-    margin: 20px auto;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
-  
-  .dti-display {
-    text-align: center;
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin: 10px 0;
+  .letter-template {
+    width: 100%;
+    max-width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
   }
-  
-  .dti-display.green { color: #28a745; }
-  .dti-display.yellow { color: #ffc107; }
-  .dti-display.red { color: #dc3545; }
-  
-  .plan p {
-    text-align: center;
-    background-color: #f0f8ff;
-    padding: 20px;
-    border-radius: 10px;
-    color: #1e3c72;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  }
-  
   .download-btn {
-    margin: 25px auto;
+    width: 100%;
+    padding: 12px 25px;
+    font-size: 1em;
+    box-sizing: border-box;
   }
-  
-  /* ---------------------------------
-       Footer
-  ---------------------------------- */
-  .site-footer {
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    padding: 20px 0;
-    text-align: center;
+}
+
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 2rem;
   }
-  
-  .site-footer p {
-    font-size: 1.2rem;
+  .guide__title {
+    font-size: 1.8rem;
   }
-  
-  .contact-info {
-    margin-top: 15px;
+  .guide__price {
+    font-size: 1.5rem;
   }
-  
-  .social-icon {
+  .btn {
+    padding: 12px 24px;
+    font-size: 1rem;
+  }
+  .contact-info .social-icon {
     width: 30px;
     height: 30px;
-    transition: transform 0.3s ease;
-    object-fit: contain;
   }
-  
-  .contact-info a {
-    font-size: 1.2rem;
-    margin-right: 10px;
-    color: #fff;
+  .download-btn {
+    padding: 10px 20px;
   }
-  
-  /* ---------------------------------
-       Animations
-  ---------------------------------- */
-  @keyframes fadeInUp {
-    0% { opacity: 0; transform: translateY(50px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
-  
-  /* ---------------------------------
-       Responsive Adjustments
-  ---------------------------------- */
-  @media (max-width: 768px) {
-    /* Container takes full width */
-    .container {
-      width: 100%;
-      max-width: 100%;
-      padding: 0 10px;
-    }
-    /* Navigation adjustments */
-    .navbar {
-      flex-direction: column;
-      gap: 15px;
-    }
-    .navbar__container {
-      flex-direction: column;
-    }
-    .navbar__logo-link .logo {
-      width: 120px;
-    }
-    .navbar__title h1 {
-      font-size: 2rem;
-    }
-    .navbar__menu {
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    /* Guides Section */
-    .guide {
-      width: 100%;
-      margin: 0 auto 30px;
-      display: block;
-    }
-    .guide__figure,
-    .guide__details {
-      width: 100%;
-      text-align: center;
-      margin: 0;
-    }
-    .guide__img {
-      width: 100%;
-      max-width: none;
-      border-radius: 10px;
-    }
-    .guide__details {
-      padding: 20px;
-    }
-    /* Debt Report Section */
-    .form-section input {
-      width: 100%;
-      max-width: 100%;
-      box-sizing: border-box;
-    }
-    .chart-container {
-      width: 100%;
-      max-width: 100%;
-      box-sizing: border-box;
-    }
-    .letter-template {
-      width: 100%;
-      max-width: 100%;
-      padding: 15px;
-      box-sizing: border-box;
-    }
-    /* Button adjustments */
-    .download-btn {
-      width: 100%;
-      padding: 12px 25px;
-      font-size: 1em;
-      box-sizing: border-box;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .section-title {
-      font-size: 2rem;
-    }
-    .guide__title {
-      font-size: 1.8rem;
-    }
-    .guide__price {
-      font-size: 1.5rem;
-    }
-    .btn {
-      padding: 12px 24px;
-      font-size: 1rem;
-    }
-    .contact-info .social-icon {
-      width: 30px;
-      height: 30px;
-    }
-    .download-btn {
-      padding: 10px 20px;
-    }
-  }
-  
+}
+
+/* ---------------------------------
+   Extra Charts Styling
+---------------------------------- */
+.extra-charts-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+.extra-chart {
+  flex: 1;
+  text-align: center;
+  margin: 0 10px;
+}
+.extra-chart canvas {
+  max-width: 100%;
+  height: auto;
+}
