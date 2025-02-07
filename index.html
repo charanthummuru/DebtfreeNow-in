@@ -285,20 +285,15 @@
     }
 
     // Download the report as a one-page PDF
-    function downloadReport() {
+   function downloadReport() {
   const reportSection = document.getElementById('reportSection');
-  const letterTemplate = document.querySelector('.letter-template');
-  // Save original inline styles for reportSection and letterTemplate
+  // Save original inline styles
   const originalStyles = {
     width: reportSection.style.width,
     position: reportSection.style.position,
     overflow: reportSection.style.overflow,
     zIndex: reportSection.style.zIndex
   };
-  const originalLetterTemplateWidth = letterTemplate.style.width;
-
-  // Temporarily force the letter template to a fixed desktop-like width (adjust if needed)
-  letterTemplate.style.width = '1200px';
 
   // Insert watermark element at the top of the letter-template
   const watermark = document.createElement('div');
@@ -308,9 +303,9 @@
   watermark.style.color = "gray";
   watermark.style.textAlign = "center";
   watermark.style.marginBottom = "10px";
-  letterTemplate.prepend(watermark);
+  document.querySelector('.letter-template').prepend(watermark);
 
-  // Adjust reportSection styles temporarily for capturing the full report
+  // Adjust styles temporarily for capturing the full report
   reportSection.style.width = '100%';
   reportSection.style.position = 'absolute';
   reportSection.style.overflow = 'visible';
@@ -320,14 +315,12 @@
     scrollY: -window.scrollY,
     scrollX: -window.scrollX,
     useCORS: true,
-    scale: 2, // lower scale to reduce file size
+    scale: 2, // lowered scale factor (try 1.5 or 2)
     logging: false
   }).then(canvas => {
     // Restore original styles
     Object.assign(reportSection.style, originalStyles);
-    letterTemplate.style.width = originalLetterTemplateWidth;
-    
-    // Convert canvas to JPEG (quality 0.8) to further reduce file size
+    // Convert canvas to JPEG with quality 0.8 instead of PNG
     const imgData = canvas.toDataURL('image/jpeg', 0.8);
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF('p', 'mm', 'a4');
@@ -335,17 +328,13 @@
     const pageHeight = pdf.internal.pageSize.getHeight();
     const canvasWidth = canvas.width;
     const canvasHeight = canvas.height;
-    
-    // Calculate a scale factor so that the canvas image exactly fills the page width
-    const scaleFactor = pageWidth / canvasWidth;
-    const imgWidth = pageWidth;
+    const scaleFactor = Math.min(pageWidth / canvasWidth, pageHeight / canvasHeight);
+    const imgWidth = canvasWidth * scaleFactor;
     const imgHeight = canvasHeight * scaleFactor;
-    // Center vertically if needed
+    const marginX = (pageWidth - imgWidth) / 2;
     const marginY = (pageHeight - imgHeight) / 2;
-    
-    pdf.addImage(imgData, 'JPEG', 0, marginY, imgWidth, imgHeight);
+    pdf.addImage(imgData, 'JPEG', marginX, marginY, imgWidth, imgHeight);
     pdf.save(`${document.getElementById('name').value}_Debt_Report.pdf`);
-    
     // Remove the temporary watermark element after capture
     const tempWatermark = document.getElementById('tempWatermark');
     if (tempWatermark) {
@@ -355,7 +344,6 @@
     console.error('Error generating PDF:', error);
     alert('Error generating PDF. Please try again.');
     Object.assign(reportSection.style, originalStyles);
-    letterTemplate.style.width = originalLetterTemplateWidth;
     const tempWatermark = document.getElementById('tempWatermark');
     if (tempWatermark) {
       tempWatermark.remove();
