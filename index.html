@@ -13,9 +13,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <!-- Razorpay Checkout script -->
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  <!-- You can either add extra inline CSS here or keep it in styles.css -->
+  <!-- (Optional inline CSS can go here or remain in styles.css) -->
   <style>
-    /* (Optional inline CSS can go here) */
+    /* (Optional inline CSS) */
   </style>
 </head>
 <body>
@@ -28,7 +28,7 @@
     if (isInstagramInAppBrowser()) {
       var overlay = document.createElement("div");
       overlay.id = "browserPromptOverlay";
-      overlay.innerHTML = "<h2>Open in Browser</h2><p>For the best experience, please open this page in your default browser. Tap the menu  and select 'Open in Browser'.</p>";
+      overlay.innerHTML = "<h2>Open in Browser</h2><p>For the best experience, please open this page in your default browser. Tap the menu and select 'Open in Browser'.</p>";
       document.body.appendChild(overlay);
     }
   </script>
@@ -58,6 +58,7 @@
     <section id="guides" class="guides">
       <div class="container">
         <h2 class="section-title">Our Featured Guides</h2>
+        <!-- Guide 1: Debt-Free Student (₹49) using Razorpay Payment Button -->
         <article class="guide">
           <figure class="guide__figure">
             <img src="https://res.cloudinary.com/dqakzmdij/image/upload/v1738411456/GUIDE_20250128_025253_000_jpktpe.jpg" alt="Debt-Free Student Guide" class="guide__img">
@@ -66,10 +67,13 @@
             <h3 class="guide__title">Debt-Free Student</h3>
             <p class="guide__price">₹49</p>
             <p class="guide__description">Learn how to manage loans, plan your budget, and start your journey to financial freedom with the Debt-Free Student guide.</p>
-            <!-- Razorpay integration: data-amount is in paise -->
-            <a href="#" class="btn guide__btn" data-amount="4900" data-title="Debt-Free Student">Buy Now</a>
+            <!-- Razorpay Payment Button Integration for ₹49 guide -->
+            <form>
+              <script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_PthAmwYKkaNLRY" async> </script>
+            </form>
           </div>
         </article>
+        <!-- Guide 2: The Dark Side of Slice Loan App (₹10) using Razorpay Payment Button -->
         <article class="guide">
           <figure class="guide__figure">
             <img src="https://res.cloudinary.com/dqakzmdij/image/upload/v1738411737/GUIDE_20250131_180656_000_t0fqlx.jpg" alt="The Dark Side of Slice Loan App" class="guide__img">
@@ -78,8 +82,10 @@
             <h3 class="guide__title">The Dark Side of Slice Loan App</h3>
             <p class="guide__price">₹10</p>
             <p class="guide__description">Explore the hidden risks and costs of using the Slice Loan App and learn how to protect yourself financially.</p>
-            <!-- Razorpay integration: data-amount is in paise -->
-            <a href="#" class="btn guide__btn" data-amount="1000" data-title="The Dark Side of Slice Loan App">Buy Now</a>
+            <!-- Razorpay Payment Button Integration for ₹10 guide -->
+            <form>
+              <script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_PthN0vkFHyx5gB" async> </script>
+            </form>
           </div>
         </article>
       </div>
@@ -172,7 +178,7 @@
       document.getElementById('formSection').style.display = 'block';
     }
 
-    // Generate Debt Report from user input
+    // Generate Debt Report from user input with enhanced DTI validation and display
     function generateReport() {
       const name = document.getElementById('name').value.trim();
       const nameRegex = /^[A-Za-z\s]+$/;
@@ -198,22 +204,42 @@
         return;
       }
 
-      const dti = ((monthlyEMI / monthlyIncome) * 100).toFixed(2);
+      // Additional logical validations for EMI values
+      if (monthlyEMI > totalDebt) {
+        alert("Monthly EMI cannot be greater than the total debt. Please check your values.");
+        return;
+      }
+      if (monthlyEMI > monthlyIncome) {
+        alert("Monthly EMI cannot be greater than your monthly income. Please check your values.");
+        return;
+      }
+
+      // Calculate DTI (Debt-to-Income Ratio) and clamp it between 0 and 100%
+      let computedDTI = (monthlyEMI / monthlyIncome) * 100;
+      let clampedDTI = Math.min(100, Math.max(0, computedDTI));
+      let dtiText = clampedDTI.toFixed(2);
 
       // Update report details
       document.getElementById('userName').innerText = name;
       document.getElementById('debtAmount').innerText = totalDebt.toFixed(2);
       document.getElementById('monthlyEMIAmount').innerText = monthlyEMI.toFixed(2);
       document.getElementById('incomeAmount').innerText = monthlyIncome.toFixed(2);
-      document.getElementById('dtiRatio').innerText = dti;
+      document.getElementById('dtiRatio').innerText = dtiText;
 
       // Hide the form and show the report
       document.getElementById('formSection').style.display = 'none';
       document.getElementById('reportSection').style.display = 'block';
 
       const dtiDisplay = document.getElementById('dtiDisplay');
-      dtiDisplay.innerText = `${dti}% DTI`;
-      dtiDisplay.className = dti <= 30 ? 'dti-display green' : dti <= 50 ? 'dti-display yellow' : 'dti-display red';
+      dtiDisplay.innerText = `${dtiText}% DTI`;
+      // Set color based on clamped DTI value
+      if (clampedDTI <= 30) {
+        dtiDisplay.className = 'dti-display green';
+      } else if (clampedDTI <= 50) {
+        dtiDisplay.className = 'dti-display yellow';
+      } else {
+        dtiDisplay.className = 'dti-display red';
+      }
 
       // Render the debt distribution chart
       const ctx = document.getElementById('debtChart').getContext('2d');
@@ -234,10 +260,10 @@
         }
       });
 
-      // Debt management plan text based on DTI
-      const planText = dti > 50 ? 
+      // Determine debt management strategy based on DTI
+      const planText = clampedDTI > 50 ? 
         'Aggressive Avalanche Method: Focus on high-interest debts.' : 
-        dti > 30 ? 
+        clampedDTI > 30 ? 
         'Debt Snowball Method: Clear smaller debts first.' : 
         'Healthy DTI: Maintain wise expense management.';
       document.getElementById('planText').innerText = planText;
@@ -245,7 +271,7 @@
       // Calculate time to debt freedom, financial health score and interest saved
       const timeToDebtFreedom = (totalDebt / monthlyEMI).toFixed(1);
       document.getElementById('timeToDebtFreedom').innerText = `${timeToDebtFreedom} months`;
-      const financialHealthScore = (100 - dti).toFixed(0);
+      const financialHealthScore = (100 - clampedDTI).toFixed(0);
       document.getElementById('financialHealthScore').innerText = `${financialHealthScore}/100`;
       const interestSaved = (totalDebt * 0.12 * timeToDebtFreedom / 12).toFixed(2);
       document.getElementById('interestSaved').innerText = `₹${interestSaved}`;
@@ -307,7 +333,7 @@
       });
     }
 
-    // Download the report as a one-page PDF
+    // Download the report as a one-page high-quality PDF
     function downloadReport() {
       const reportSection = document.getElementById('reportSection');
       // Save original inline styles
@@ -334,16 +360,17 @@
       reportSection.style.overflow = 'visible';
       reportSection.style.zIndex = '9999';
 
+      // Increase the scale factor to 3 for high-quality output
       html2canvas(reportSection, {
         scrollY: -window.scrollY,
         scrollX: -window.scrollX,
         useCORS: true,
-        scale: 2,
+        scale: 3,
         logging: false
       }).then(canvas => {
         // Restore original styles
         Object.assign(reportSection.style, originalStyles);
-        const imgData = canvas.toDataURL('image/jpeg', 0.8);
+        const imgData = canvas.toDataURL('image/jpeg', 1.0); // Use highest quality setting
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF('p', 'mm', 'a4');
         const pageWidth = pdf.internal.pageSize.getWidth();
@@ -371,37 +398,6 @@
         }
       });
     }
-
-    // Razorpay Integration for "Buy Now" buttons
-    document.querySelectorAll('.guide__btn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const amount = parseInt(this.getAttribute('data-amount')); // Amount in paise
-        const guideTitle = this.getAttribute('data-title');
-        var options = {
-          "key": "rzp_test_NnbEh1puZpKb4n", // Replace with your Razorpay Key ID
-          "amount": amount,
-          "currency": "INR",
-          "name": "DebtfreeNow",
-          "description": guideTitle,
-          "image": "https://res.cloudinary.com/dqakzmdij/image/upload/v1738412284/logo_svg_lavc3x.svg",
-          "handler": function (response){
-              alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
-              // Implement further logic such as delivering the guide or redirecting the user
-          },
-          "prefill": {
-              "name": "",
-              "email": "",
-              "contact": ""
-          },
-          "theme": {
-              "color": "#1dbf73"
-          }
-        };
-        var rzp1 = new Razorpay(options);
-        rzp1.open();
-      });
-    });
   </script>
 </body>
 </html>
