@@ -408,5 +408,35 @@
       });
     }
   </script>
+  <script>
+    function trackDebtReportSubmission() {
+        gtag('event', 'Debt_Report_Checked', {
+            'event_category': 'User Engagement',
+            'event_label': 'Debt Report Submission'
+        });
+    }
+</script>
+<script>
+  // Wait until the document is fully loaded
+  document.addEventListener("DOMContentLoaded", function() {
+    // Select the "Get Report" button inside the form-section (adjust the selector if necessary)
+    var getReportButton = document.querySelector("#formSection .btn");
+    if (getReportButton) {
+      // Add an event listener to track clicks
+      getReportButton.addEventListener("click", function() {
+        // Send event to Google Analytics
+        if (typeof gtag === "function") {
+          gtag("event", "get_report_clicked", {
+            event_category: "User Reports",
+            event_label: "Get Report Clicked",
+            value: 1
+          });
+        }
+      });
+    }
+  });
+</script>
+
+
 </body>
 </html>
