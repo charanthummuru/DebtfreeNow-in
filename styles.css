@@ -178,6 +178,18 @@ a {
   background-color: #17a65e;
   transform: scale(1.02);
 }
+.G-2{
+  display: inline-block;
+  background-color: grey;
+  color: #fff;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  
+}
 
 /* ---------------------------------
      Debt Report Section
